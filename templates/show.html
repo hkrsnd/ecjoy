@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="form">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <p class="lead">
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h2 class="panel-title">ファイル一覧</h2>
+        </div>
+        <div class="panel-body">
+        <ul class="list-group">
+        {%if files %}
+        {% for file in files%}
+        <li class="list-group-item"><a href="/download/csv/{{file}}" class="liist-group-item">{{file}}</a></li>
+        {% endfor %}
+        {% endif %}
+        </div>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

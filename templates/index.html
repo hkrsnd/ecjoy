@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="form">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <p class="lead">
+         {% for n in name%}
+         {{n}}<br>
+         {% endfor %}
+        </p>
+        <form action="/create" method="post" class="form-inline">
+          <div id = "files">
+          <ul>
+            <li><input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=114&sortV=1'/>スマホ・携帯電話用品</li>
+            <li><input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=13&sortV=1'/>DVDソフト</li>
+            <li><h4>オフィス用品・文具<br></h4>
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=42&sortV=1'/>事務用品・文房具
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=32&sortV=1'/>筆記用具
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=33&sortV=1'/>ノート・紙製品
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=97&sortV=1'/>ファイル
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=48&sortV=1'/>コピー用紙・OA用紙
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=31&sortV=1'/>オフィス家具・収納
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=38&sortV=1'/>事務機器
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=29&sortV=1'/>梱包資材
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=30&sortV=1'/>店舗用品
+            </li>
+        		<li><h4>ベビー・キッズ・ホビー<br></h4>
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=51&sortV=1'/>ベビー・キッズ・マタニティ
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=46&sortV=1'/>趣味・おもちゃ
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=14&sortV=1'/>ゲーム機器・ソフト
+						</li>
+						<li><h4>ホーム＆キッチン・ペット<br></h4>
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=34&sortV=1'/>キッチン用品・食器
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=85&sortV=1'/>インテリア
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=109&sortV=1'/>ラグ・カーテン・ファブリック
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=83&sortV=1'/>家具
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=86&sortV=1'/>寝具
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=36&sortV=1'/>掃除用品
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=35&sortV=1'/>生活雑貨
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=50&sortV=1'/>ペット用品
+						</li>
+						<li><h4>DIY・工具・エクステリア<br></h4>
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=90&sortV=1'/>ライト・照明
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=113&sortV=1'/>住宅設備
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=43&sortV=1'/>住宅・エクステリア
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=103&sortV=1'/>DIY・工具
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=47&sortV=1'/>作業用品
+						</li>
+						<li><h4>楽器・音楽機器<br></h4>
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=20&sortV=1'/>管楽器
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=17&sortV=1'/>ピアノ・鍵盤楽器
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=18&sortV=1'/>ギター・ベース・弦楽器
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=19&sortV=1'/>ドラム・打楽器
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=21&sortV=1'/>DJ機器
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=22&sortV=1'/>MIDI機器
+						  <input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=23&sortV=1'/>アンプ・エフェクター
+						</li>
+        </ul>
+          </div>
+          <button id="test" type="submit" class="btn btn-submit">決定する</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

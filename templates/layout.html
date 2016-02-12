@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+		<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <div class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand">EC-JOYツール</a>
+        </div>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="/">カテゴリー選択</a>
+        <li><a href="/show">ファイル一覧</a>
+      </ul>
+    </div>
+
+<script type="text/javascript" src="/static/js/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.blockUI.js"></script>
+<script type="text/javascript">
+$(function() {
+  $('#test').click(function() {
+    $.blockUI({
+      message: '処理中....',
+      css: {
+        border: 'none',
+        padding: '10px',
+        backgroundColor: '#333',
+        opacity: .5,
+        color: '#fff'
+      },
+      overlayCSS: {
+        backgroundColor: '#000',
+        opacity: 0.6
+      }
+    });
+  });
+}); 
+</script> 
+  </head>
+  <body>
+    <!--
+    <div id="side">
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h2 class="panel-title">メニュー</h2>
+        </div>
+        <div class="panel-body">
+          <a href="/" class="list-group-item">カテゴリー選択</a>
+          <a href="/show" class="list-group-item">ファイル一覧</a>
+        </div>
+      </div>
+    </div>
+    -->
+    <div id="main">
+      {% block content %}{% endblock %}
+    </div>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="static/css/main.css">
+  </body>
+</html>
