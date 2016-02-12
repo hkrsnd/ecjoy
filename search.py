@@ -56,9 +56,9 @@ def writeCSV(source):
     csvWriter.writerow(source)
     f.close()
 
-def getProductURL(url):
+def getProductURLs(url):
     urls = []
-    base_url = 'http://www.ecj.jp'
+    base_url = 'http://www.ecj.jp/'
     response = request.urlopen(url)
     body = response.read()
     # Parse HTML
@@ -67,7 +67,7 @@ def getProductURL(url):
     for box in box_names:
         urls.append(base_url + box.find("a").attrs['href'])
     return urls
-
+'''
 def scrollAndGetURLs(url):
     urls = []
     base_url = 'http://www.ecj.jp'
@@ -108,4 +108,4 @@ def scrollAndGetURLs(url):
     for box in boxes:
         urls.append(box.find_element_by_tag_name('a').get_attribute('href'))
     return urls
-
+'''
