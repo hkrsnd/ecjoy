@@ -49,6 +49,8 @@ def create():
             category_urls = request.form.getlist("category")
             now = datetime.datetime.now()
             csvname = now.strftime("%Y%m%d%H%M%S")
+            csvpath = "csv/" + csvname + ".csv"
+            f = codecs.open(csvpath, 'a', "shift_jis")
             for category_url in category_urls:
                 page = 0
                 while True:
@@ -65,12 +67,10 @@ def create():
                         #if page % 25 == 0:
                         #    csvid = csvid + 1
                         #f = codecs.open("csv/" + csvname + '_' + str(csvid) + ".csv", 'a', "shift_jis")
-                        csvpath = "csv/" + csvname + ".csv"
-                        f = codecs.open(csvpath, 'a', "shift_jis")
                         csvWriter = csv.writer(f)
                         csvWriter.writerow(info)
-                        f.close()
-                    os.chmod(csvpath, 0o777) #権限の変更
+            f.close()
+            os.chmod(csvpath, 0o777) #権限の変更
             return render_template('index.html', title = title)
     except HTTPError as e:
         content = e.read()
