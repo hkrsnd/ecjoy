@@ -1,5 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
+<script language="JavaScript" type="text/javascript">
+function AllChecked(){
+    var check =  document.form.all.checked;
+
+      for (var i=0; i<document.form.category.length; i++){
+            document.form.category[i].checked = check;
+              }
+}
+</script>
 <div class="form">
   <div class="container">
     <div class="row">
@@ -9,9 +18,10 @@
          {{n}}<br>
          {% endfor %}
         </p>
-        <form action="/create" method="post" class="form-inline">
+        <form name="form" action="/create" method="post" class="form-inline">
           <div id = "files">
           <ul>
+            <li><input type="checkbox" name="all" onClick="AllChecked();" /> 全選択</li>
             <li><input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=114&sortV=1'/>スマホ・携帯電話用品</li>
             <li><input type="checkbox" class="form-control" name = "category" value='http://www.ecj.jp/U1201.doit?ca1=13&sortV=1'/>DVDソフト</li>
             <li><h4>オフィス用品・文具<br></h4>

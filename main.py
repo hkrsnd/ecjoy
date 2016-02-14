@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, send_from_directory
 import glob
 import search
-import csv
+import csv 
 import os
 import datetime
+import codecs
 from urllib.error import HTTPError
 
 app = Flask(__name__)
@@ -43,27 +44,33 @@ def create():
 @app.route("/create", methods = ['POST'])
 def create():
     try:
-        page = 0
-        now = datetime.datetime.now()
-        csvname = now.strftime("%Y%m%d%H%M%S")
         title = "creating files"
         if request.method == 'POST':
-            category_url = request.form.getlist("category")[0] + '&page=' + str(page)
-            while True:
-                page = page + 1
-                category_url = request.form.getlist("category")[0] + '&page=' + str(page)
-                urls = search.getProductURLs(category_url)
-                #if isinstance(urls, type(None)):
-                if len(urls) == 0:
-                    f.close()
-                    break
-                print(urls)
-                for url in urls:
-                    info = search.search(url) + [url] # [name, jcode, price, stock, points, url]
-                    print(info)
-                    f = open("csv/" + csvname + ".csv", 'a')
-                    csvWriter = csv.writer(f)
-                    csvWriter.writerow(info)
+            category_urls = request.form.getlist("category")
+            for category_url in category_urls:
+                now = datetime.datetime.now()
+                csvname = now.strftime("%Y%m%d%H%M%S")
+                page = 0
+                while True:
+                    page = page + 1
+                    category_url_page = category_url + '&page=' + str(page)
+                    urls = search.getProductURLs(category_url_page)
+                    #if isinstance(urls, type(None)):
+                    if len(urls) == 0:
+                        break
+                    print(urls)
+                    for url in urls:
+                        info = search.search(url) + [url] # [name, jcode, price, stock, points, url]
+                        print(info)
+                        #if page % 25 == 0:
+                        #    csvid = csvid + 1
+                        #f = codecs.open("csv/" + csvname + '_' + str(csvid) + ".csv", 'a', "shift_jis")
+                        csvpath = "csv/" + csvname + ".csv"
+                        f = codecs.open(csvpath, 'a', "shift_jis")
+                        csvWriter = csv.writer(f)
+                        csvWriter.writerow(info)
+                        f.close()
+                    os.chmod(csvpath, 0o777) #権限の変更
             return render_template('index.html', title = title)
     except HTTPError as e:
         content = e.read()
