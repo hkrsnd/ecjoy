@@ -47,9 +47,9 @@ def create():
         title = "creating files"
         if request.method == 'POST':
             category_urls = request.form.getlist("category")
+            now = datetime.datetime.now()
+            csvname = now.strftime("%Y%m%d%H%M%S")
             for category_url in category_urls:
-                now = datetime.datetime.now()
-                csvname = now.strftime("%Y%m%d%H%M%S")
                 page = 0
                 while True:
                     page = page + 1
