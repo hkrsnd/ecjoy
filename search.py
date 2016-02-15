@@ -50,7 +50,10 @@ def search(url):
     return [name, jcode, price, stock, points]
 
 def isStocked(soup):
-    stock = soup.find(class_="i-cpts").find('strong')
+    try:
+        stock = soup.find(class_="i-cpts").find('strong')
+    except Exception as e:
+        return ""
     if isinstance(stock, type(None)):
         return "在庫なし"
     else:
