@@ -36,7 +36,7 @@ def search(url):
     # get price (including tax)
     #price = soup.find(class_='i-cprice').findAll('small')[0].string[5:-1]
     try:
-        i_price = soup.find(class_='i-cprice').findAll("small", text=re.compile(r'^\(税込.*'))[0].string[5:-1]
+        price = soup.find(class_='i-cprice').findAll("small", text=re.compile(r'^\(税込.*'))[0].string[5:-1]
     except:
         price = '0'
     # get whether it has stock or not
