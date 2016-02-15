@@ -50,7 +50,6 @@ def create():
             now = datetime.datetime.now()
             csvname = now.strftime("%Y%m%d%H%M%S")
             csvpath = "csv/" + csvname + ".csv"
-            f = codecs.open(csvpath, 'a', "shift_jis")
             for category_url in category_urls:
                 page = 0
                 while True:
@@ -62,6 +61,7 @@ def create():
                         break
                     print(urls)
                     for url in urls:
+                        f = codecs.open(csvpath, 'a', "shift_jis")
                         info = search.search(url) + [url] # [name, jcode, price, stock, points, url]
                         print(info)
                         #if page % 25 == 0:
@@ -69,7 +69,7 @@ def create():
                         #f = codecs.open("csv/" + csvname + '_' + str(csvid) + ".csv", 'a', "shift_jis")
                         csvWriter = csv.writer(f)
                         csvWriter.writerow(info)
-            f.close()
+                        f.close()
             os.chmod(csvpath, 0o777) #権限の変更
             return render_template('index.html', title = title)
     except HTTPError as e:
