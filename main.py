@@ -73,16 +73,20 @@ def searchAndWrite(category_urls):
                     break
                 print(urls)
                 for url in urls:
-                    j = j + 1
-                    f = codecs.open(csvpath, 'a', "shift_jis")
-                    info = search.search(url) + [url] # [name, jcode, price, stock, points, url]
-                    print(info)
-                    #if page % 25 == 0:
-                    #    csvid = csvid + 1
-                    #f = codecs.open("csv/" + csvname + '_' + str(csvid) + ".csv", 'a', "shift_jis")
-                    csvWriter = csv.writer(f)
-                    csvWriter.writerow(info)
-                    f.close()
+                    try:
+                        j = j + 1
+                        f = codecs.open(csvpath, 'a', "shift_jis")
+                        info = search.search(url) + [url] # [name, jcode, price, stock, points, url]
+                        print(info)
+                        #if page % 25 == 0:
+                        #    csvid = csvid + 1
+                        #f = codecs.open("csv/" + csvname + '_' + str(csvid) + ".csv", 'a', "shift_jis")
+                        csvWriter = csv.writer(f)
+                        csvWriter.writerow(info)
+                        f.close()
+                    except Exception as e:
+                        print(e.read)
+                        continue
         os.chmod(csvpath, 0o777) #権限の変更
     except Exception as e:
         print(e.read)
