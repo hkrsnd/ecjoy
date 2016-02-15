@@ -14,32 +14,38 @@ from selenium.webdriver.common.keys import Keys
 #URL
 
 def search(url):
-    response = request.urlopen(url)
-    body = response.read()
-    # Parse HTML
-    soup = BeautifulSoup(body, "lxml")
+    try:
+        response = request.urlopen(url)
+        body = response.read()
+        # Parse HTML
+        soup = BeautifulSoup(body, "lxml")
+    except:
+        return ["", "", "", "", ""]
     # get product name
     try:
         name = soup.find(class_='i-cname').find('h1').string
-    except AttributeError as e:
+    except:
         name = "NoName"
     # get product JAN code
     try:
         jcode = soup.find(class_='i-cname').findAll('li', text=re.compile(r'.*JANコード.*'))[0].string[8:-1]
-    except IndexError as e:
+    except:
         jcode = '0'
     #if len(jcode) < 13:
     #    [0]*(13 - len(jcode)).append(jcode) # 先頭に０のリスト付加
     # get price (including tax)
     #price = soup.find(class_='i-cprice').findAll('small')[0].string[5:-1]
     try:
-        price = soup.find(class_='i-cprice').findAll("small", text=re.compile(r'^\(税込.*'))[0].string[5:-1]
-    except IndexError as e:
+        i_price = soup.find(class_='i-cprice').findAll("small", text=re.compile(r'^\(税込.*'))[0].string[5:-1]
+    except:
         price = '0'
     # get whether it has stock or not
     stock = isStocked(soup)
     # get points
-    points = soup.find(class_='i-cpts').find('em').string
+    try:
+        points = soup.find(class_='i-cpts').find('em').string
+    except:
+        points = '0'
     # write to csv file
     return [name, jcode, price, stock, points]
 
