@@ -19,17 +19,17 @@ def search(url):
         body = response.read()
         # Parse HTML
         soup = BeautifulSoup(body, "lxml")
-    except:
+    except Exception as e:
         return ["", "", "", "", ""]
     # get product name
     try:
         name = soup.find(class_='i-cname').find('h1').string
-    except:
+    except Exception as e:
         name = "NoName"
     # get product JAN code
     try:
         jcode = soup.find(class_='i-cname').findAll('li', text=re.compile(r'.*JANコード.*'))[0].string[8:-1]
-    except:
+    except Exception as e:
         jcode = '0'
     #if len(jcode) < 13:
     #    [0]*(13 - len(jcode)).append(jcode) # 先頭に０のリスト付加
@@ -37,14 +37,14 @@ def search(url):
     #price = soup.find(class_='i-cprice').findAll('small')[0].string[5:-1]
     try:
         price = soup.find(class_='i-cprice').findAll("small", text=re.compile(r'^\(税込.*'))[0].string[5:-1]
-    except:
+    except Exception as e:
         price = '0'
     # get whether it has stock or not
     stock = isStocked(soup)
     # get points
     try:
         points = soup.find(class_='i-cpts').find('em').string
-    except:
+    except Exception:
         points = '0'
     # write to csv file
     return [name, jcode, price, stock, points]
