@@ -47,33 +47,48 @@ def create():
         title = "creating files"
         if request.method == 'POST':
             category_urls = request.form.getlist("category")
-            now = datetime.datetime.now()
-            csvname = now.strftime("%Y%m%d%H%M%S")
-            csvpath = "csv/" + csvname + ".csv"
-            for category_url in category_urls:
-                page = 0
-                while True:
-                    page = page + 1
-                    category_url_page = category_url + '&page=' + str(page)
-                    urls = search.getProductURLs(category_url_page)
-                    #if isinstance(urls, type(None)):
-                    if len(urls) == 0:
-                        break
-                    print(urls)
-                    for url in urls:
-                        f = codecs.open(csvpath, 'a', "shift_jis")
-                        info = search.search(url) + [url] # [name, jcode, price, stock, points, url]
-                        print(info)
-                        #if page % 25 == 0:
-                        #    csvid = csvid + 1
-                        #f = codecs.open("csv/" + csvname + '_' + str(csvid) + ".csv", 'a', "shift_jis")
-                        csvWriter = csv.writer(f)
-                        csvWriter.writerow(info)
-                        f.close()
-            os.chmod(csvpath, 0o777) #権限の変更
+            searchAndWrite(category_urls)
             return render_template('index.html', title = title)
     except HTTPError as e:
         content = e.read()
+        print(content)
+        return content
+
+def searchAndWrite(category_urls):
+    i = 0
+    j = 0
+    try:
+        now = datetime.datetime.now()
+        csvname = now.strftime("%Y%m%d%H%M%S")
+        csvpath = "csv/" + csvname + ".csv"
+        for category_url in category_urls:
+            i = i + 1
+            page = 0
+            while True:
+                page = page + 1
+                category_url_page = category_url + '&page=' + str(page)
+                urls = search.getProductURLs(category_url_page)
+                #if isinstance(urls, type(None)):
+                if len(urls) == 0:
+                    break
+                print(urls)
+                for url in urls:
+                    j = j + 1
+                    f = codecs.open(csvpath, 'a', "shift_jis")
+                    info = search.search(url) + [url] # [name, jcode, price, stock, points, url]
+                    print(info)
+                    #if page % 25 == 0:
+                    #    csvid = csvid + 1
+                    #f = codecs.open("csv/" + csvname + '_' + str(csvid) + ".csv", 'a', "shift_jis")
+                    csvWriter = csv.writer(f)
+                    csvWriter.writerow(info)
+                    f.close()
+        os.chmod(csvpath, 0o777) #権限の変更
+    except Exception as e:
+        print(e.read)
+        searchAndWrite(category_urls[i:])
+
+
 
 # show all created csv files
 @app.route("/show")

@@ -20,6 +20,7 @@ def search(url):
         # Parse HTML
         soup = BeautifulSoup(body, "lxml")
     except Exception as e:
+        print(e.read)
         return ["", "", "", "", ""]
     # get product name
     try:
