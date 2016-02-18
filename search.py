@@ -48,7 +48,7 @@ def search(url):
     except Exception:
         points = '0'
     # write to csv file
-    return [name, jcode, price, stock, points]
+    return [jcode, name, price, points, stock]
 
 def isStocked(soup):
     try:
