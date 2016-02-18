@@ -1,3 +1,4 @@
+# -*- coding: utf_8 -*-
 from flask import Flask, render_template, request, send_from_directory, flash
 import glob
 import search
@@ -76,7 +77,7 @@ def searchAndWrite(category_urls, category_names):
                 print(urls)
                 for url in urls:
                     try:
-                        f = codecs.open(csvpath, 'a', "shift_jis")
+                        f = codecs.open(csvpath, 'a', 'shift_jis')
                         base_info = search.search(url)
                         info = base_info[:2] + [url] + base_info[2:-1] + [category_names[i]]
                         print(info)
