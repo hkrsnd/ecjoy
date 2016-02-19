@@ -97,11 +97,17 @@ def searchAndWrite(category_urls, category_names):
 @app.route("/show")
 def show():
     _files = glob.glob("csv/*")
-    _files.sort(key=os.path.getmtime, reverse=True)
+    _tuples = []
+    for x in _files:
+        tuple = (x[4:17], x)
+        _tuples.append(tuple)
+    _tuples.sort(key = lambda x: int(x[0]), reverse = True)
+    _filenames = [x[1][4:] for x in _tuples]
+    #_files.sort(key=os.path.getmtime, reverse=True)
 
-    _filenames = []
-    for f in _files:
-        _filenames.append(f[4:])
+    #_filenames = []
+    #for f in _files:
+    #    _filenames.append(f[4:])
     return render_template('show.html', title = "show files", files = _filenames)
 
 @app.route("/download/<path:filename>")
