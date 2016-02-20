@@ -7,6 +7,7 @@ import os
 import datetime
 import codecs
 from urllib.error import HTTPError
+import re
 
 app = Flask(__name__)
 
@@ -19,29 +20,6 @@ def index():
         categories = request.form.getlist("category")
         return render_template('index.html', name = categories)
 
-# create csv files
-'''
-@app.route("/create", methods = ['POST'])
-def create():
-    try:
-        now = datetime.datetime.now()
-        csvname = now.strftime("%Y%m%d%H%M%S")
-        title = "creating files"
-        if request.method == 'POST':
-            category_url = request.form.getlist("category")[0]
-            urls = search.scrollAndGetURLs(category_url)
-            print(urls)
-            for url in urls:
-                info = search.search(url) + [url] # [name, jcode, price, stock, points, url]
-                print(info)
-                f = open("csv/" + csvname + ".csv", 'a')
-                csvWriter = csv.writer(f)
-                csvWriter.writerow(info)
-                f.close()
-            return render_template('index.html', title = title)
-    except HTTPError as e:
-        content = e.read()
-'''
 @app.route("/create", methods = ['POST'])
 def create():
     try:
@@ -60,13 +38,57 @@ def create():
         print(content)
         return content
 
+def saveProcessingCategory(category_name):
+    f = open("processing.txt", 'a')
+    f.write(category_name + '\n')
+    f.close()
+
+def deleteProcessingCategory(category_name):
+    f = open("processing.txt")
+    lines = f.readlines()
+    f.close()
+    pat = re.compile(r'.*%s.*' % category_name)
+    i = 0
+    for line in lines:
+        #fs.write("%s" % (re.sub(pat,"",line)))
+        if pat.search(line):
+            del lines[i]
+        #fs.close()
+    fs = open("processing.txt","w")
+    for new_line in lines:
+        fs.write(new_line)
+    fs.close()
+
+def saveWaitingCategory(category_names):
+    f = open("waiting.txt", 'a')
+    for line in category_names:
+        f.write(line + '\n')
+    f.close()
+
+def deleteWaitingCategory(category_name):
+    f = open("waiting.txt")
+    lines = f.readlines()
+    f.close()
+    pat = re.compile(r'.*%s.*' % category_name)
+    i = 0
+    for line in lines:
+        if pat.search(line):
+            del lines[i]
+    fs = open("waiting.txt","w")
+    for new_line in lines:
+        fs.write(new_line)
+    fs.close()
+
 def searchAndWrite(category_urls, category_names):
     i = 0
     try:
+        #saveWaitingCategory(category_names[1:])
         for category_url in category_urls:
             now = datetime.datetime.now()
             csvname = now.strftime("%Y%m%d%H%M%S")
             csvpath = "csv/" + csvname + "_" + category_names[i] + ".csv"
+            #saveProcessingCategory(category_names[i])
+            #deleteWaitingCategory(category_names[i])
             page = 0
             while True:
                 page = page + 1
@@ -87,11 +109,12 @@ def searchAndWrite(category_urls, category_names):
                     except Exception as e:
                         print(e)
                         continue
+            #deleteProcessingCategory(category_names[i])
             i = i + 1 # category_name number which is pair with the url
         os.chmod(csvpath, 0o777) #権限の変更
     except Exception as e:
         print(e)
-        searchAndWrite(category_urls[i:])
+        #searchAndWrite(category_urls[i:], category_names[i:])
 
 # show all created csv files
 @app.route("/show")
@@ -117,4 +140,4 @@ def download(filename):
 
 if __name__ == "__main__":
     app.debug = True
-    app.run()
+    app.run(threaded=True)
