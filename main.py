@@ -111,10 +111,10 @@ def searchAndWrite(category_urls, category_names):
                         continue
             #deleteProcessingCategory(category_names[i])
             i = i + 1 # category_name number which is pair with the url
-        os.chmod(csvpath, 0o777) #権限の変更
+            os.chmod(csvpath, 0o777) #権限の変更
     except Exception as e:
         print(e)
-        #searchAndWrite(category_urls[i:], category_names[i:])
+        searchAndWrite(category_urls[i:], category_names[i:])
 
 # show all created csv files
 @app.route("/show")
