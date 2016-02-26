@@ -93,13 +93,23 @@ def searchAndWrite(category_urls, category_names):
             while True:
                 page = page + 1
                 category_url_page = category_url + '&page=' + str(page)
-                urls = search.getProductURLs(category_url_page)
+                try:
+                    urls = search.getProductURLs(category_url_page)
+                except Exception as e:
+                    try:
+                        urls = search.getProductURLs(category_url_page)
+                    except Exception as e:
+                        page = page + 1
+                        category_url_page = category_url + '&page=' + str(page)
+                        urls = search.getProductURLs(category_url_page)
                 if len(urls) == 0:
-                    break
+                    urls = search.getProductURLs(category_url_page)
+                    if len(urls) == 0:
+                        break
                 print(urls)
                 for url in urls:
                     try:
-                        f = codecs.open(csvpath, 'a', 'shift_jis')
+                        f = codecs.open(csvpath, 'a', 'cp932')
                         base_info = search.search(url)
                         info = base_info[:2] + [url] + base_info[2:-1] + [category_names[i]]
                         print(info)

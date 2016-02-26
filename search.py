@@ -17,6 +17,7 @@ def search(url):
     try:
         response = request.urlopen(url)
         body = response.read()
+        body = str(body, 'cp932')
         # Parse HTML
         soup = BeautifulSoup(body, "lxml")
     except Exception as e:
@@ -60,23 +61,19 @@ def isStocked(soup):
     else:
         return "在庫あり"
 
-def writeCSV(source):
-    f = open('data.csv', 'a')
-    csvWriter = csv.writer(f)
-    csvWriter.writerow(source)
-    f.close()
-
 def getProductURLs(url):
     urls = []
     base_url = 'http://www.ecj.jp/'
     response = request.urlopen(url)
     body = response.read()
+    body = str(body, 'cp932')
     # Parse HTML
     soup = BeautifulSoup(body, "lxml")
     box_names = soup.find_all(class_='s-box-name-name1')
     for box in box_names:
         urls.append(base_url + box.find("a").attrs['href'])
     return urls
+
 '''
 def scrollAndGetURLs(url):
     urls = []
