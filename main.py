@@ -111,7 +111,7 @@ def searchAndWrite(category_urls, category_names):
                     try:
                         f = codecs.open(csvpath, 'a', 'cp932')
                         base_info = search.search(url)
-                        info = base_info[:2] + [url] + base_info[2:-1] + [category_names[i]]
+                        info = base_info[:2] + [url] + base_info[2:] + [category_names[i]]
                         print(info)
                         csvWriter = csv.writer(f)
                         csvWriter.writerow(info)
